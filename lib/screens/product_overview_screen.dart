@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:shop_app/model/product.dart';
+import 'package:shop_app/widgets/product_grid.dart';
 import 'package:shop_app/widgets/product_item.dart';
 
 class ProductOverviewScreen extends StatelessWidget {
@@ -48,18 +49,7 @@ class ProductOverviewScreen extends StatelessWidget {
       appBar: AppBar(
         title: const Text('MyShop'),
       ),
-      body: GridView.builder(
-        itemCount: loadedProducts.length,
-        padding: const EdgeInsets.all(10.0),
-        gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-          crossAxisCount: 2,
-          childAspectRatio: 3 / 2,
-          crossAxisSpacing: 10,
-          mainAxisSpacing: 10,
-        ),
-        itemBuilder: (ctx, i) => ProductItem(loadedProducts[i].id,
-            loadedProducts[i].title, loadedProducts[i].imageUrl),
-      ),
+      body: ProductsGrid(loadedProducts: loadedProducts),
     );
   }
 }
