@@ -12,36 +12,40 @@ class ProductItem extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-   final product = Provider.of<Product> (context);
+   final product = Provider.of<Product> (context, listen:  false);
+   //print('product rebuilds');
     return ClipRRect(
-      borderRadius: BorderRadius.circular(18.0),
-      child: GridTile(
-        footer: GridTileBar(
-          backgroundColor: Colors.black54,
-          leading: IconButton(
-            onPressed: () {
-              product.toggleFavoriteStatus();
-            },
-            icon:  Icon(product.isFavorite ? Icons.favorite : Icons.favorite_border),
+        borderRadius: BorderRadius.circular(18.0),
+        child: GridTile(
+          footer: GridTileBar(
+            backgroundColor: Colors.black54,
+            leading: Consumer<Product>(
+      builder: (context, product, child) =>   IconButton(
+              onPressed: () {
+                product.toggleFavoriteStatus();
+              },
+              icon:  Icon(product.isFavorite ? Icons.favorite : Icons.favorite_border),
+            ),),
+            title: Text(
+              product.title,
+              textAlign: TextAlign.center,
+            ),
+            trailing: IconButton(
+                onPressed: () {}, icon: const Icon(Icons.shopping_cart)),
           ),
-          title: Text(
-            product.title,
-            textAlign: TextAlign.center,
+          child: GestureDetector(
+            onTap: (() {
+              Navigator.of(context)
+                  .pushNamed(ProductDetailScreen.routeName, arguments: product.id);
+            }),
+            child: Image.network(
+              product.imageUrl,
+              fit: BoxFit.cover,
+            ),
           ),
-          trailing: IconButton(
-              onPressed: () {}, icon: const Icon(Icons.shopping_cart)),
         ),
-        child: GestureDetector(
-          onTap: (() {
-            Navigator.of(context)
-                .pushNamed(ProductDetailScreen.routeName, arguments: product.id);
-          }),
-          child: Image.network(
-            product.imageUrl,
-            fit: BoxFit.cover,
-          ),
-        ),
-      ),
-    );
+      );
+      
+    
   }
 }
