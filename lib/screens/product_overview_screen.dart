@@ -50,7 +50,8 @@ class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
             const PopupMenuItem(value: FilterOptions.All,child: Text('Show All'),),
 
           ],
-           icon: Icon(Icons.more_vert),)
+           icon: Icon(Icons.more_vert),),
+           
         ],
       ),
       body: ProductsGrid(_showOnlyFavorites),
