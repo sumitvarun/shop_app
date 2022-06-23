@@ -17,7 +17,7 @@ class CartItem {
 
 class Cart with ChangeNotifier {
 
-  late Map<String, CartItem> _items;
+ Map<String, CartItem> _items = {};
   Map<String, CartItem>  get items{
     return {
       ..._items
@@ -30,6 +30,7 @@ class Cart with ChangeNotifier {
     } else {
       _items.putIfAbsent(productId, () => CartItem(id: DateTime.now().toString(), title: title,  price: price, quantity: 1));
     }
+    notifyListeners();
   }
 
 
