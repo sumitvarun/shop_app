@@ -23,6 +23,7 @@ class CartScreen extends StatelessWidget {
             child: Padding(
               padding: EdgeInsets.all(8),
               child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
                   Text(
                     'Total',
@@ -39,7 +40,17 @@ class CartScreen extends StatelessWidget {
                       style: TextStyle(color: Colors.white),
                     ),
                     backgroundColor: Colors.lightBlue,
-                  )
+                  ),
+                  ElevatedButton(
+                      style: ButtonStyle(
+                        backgroundColor:
+                            MaterialStateProperty.all(Colors.deepOrange),
+                      ),
+                      onPressed: () {},
+                      child: Text(
+                        'Place Order',
+                        style: TextStyle(color: Colors.white),
+                      ))
                 ],
               ),
             ),
