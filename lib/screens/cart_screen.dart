@@ -34,12 +34,15 @@ class CartScreen extends StatelessWidget {
                   SizedBox(
                     width: 10,
                   ),
+                  Spacer(),
                   Chip(
                     label: Text(
                       '\$${cart.totalAmount}',
-                      style: TextStyle(color: Colors.white),
+                      style: TextStyle(
+                          color: Color.fromARGB(255, 1, 75, 4),
+                          fontWeight: FontWeight.w600),
                     ),
-                    backgroundColor: Colors.lightBlue,
+                    backgroundColor: Colors.white,
                   ),
                   ElevatedButton(
                       style: ButtonStyle(
