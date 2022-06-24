@@ -1,57 +1,66 @@
-
-import 'dart:js';
-
 import 'package:flutter/material.dart';
+import 'package:provider/provider.dart';
 
-import 'package:shop_app/widgets/product_grid.dart';
+import '../providers/cart.dart';
+import '../widgets/badge.dart';
+import '../widgets/product_grid.dart';
 
 
 enum FilterOptions {
-Favorites, 
-All,
+  Favorites,
+  All,
 }
 
-class ProductOverviewScreen extends StatefulWidget {
-   ProductOverviewScreen({Key? key}) : super(key: key);
-
+class ProductsOverviewScreen extends StatefulWidget {
   @override
-  State<ProductOverviewScreen> createState() => _ProductOverviewScreenState();
+  _ProductsOverviewScreenState createState() => _ProductsOverviewScreenState();
 }
 
-class _ProductOverviewScreenState extends State<ProductOverviewScreen> {
-
- var _showOnlyFavorites = false;
-
+class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
+  var _showOnlyFavorites = false;
 
   @override
   Widget build(BuildContext context) {
-    //final productsContainer = Provider.of<Products>(context , listen:  false);
     return Scaffold(
       appBar: AppBar(
-        title: const Text('MyShop'),
+        title: Text('MyShop'),
         actions: <Widget>[
-          PopupMenuButton(onSelected: (
-            FilterOptions selectedValue
-          ){
-            setState(() {
-              if (selectedValue == FilterOptions.Favorites){
-             // productsContainer.showFavoritesOnly();
-             _showOnlyFavorites = true;
-            } else {
-             // productsContainer.showAll();
-             _showOnlyFavorites = false;
-            }
-              
-            });
-            
-          },
+          PopupMenuButton(
+            onSelected: (FilterOptions selectedValue) {
+              setState(() {
+                if (selectedValue == FilterOptions.Favorites) {
+                  _showOnlyFavorites = true;
+                } else {
+                  _showOnlyFavorites = false;
+                }
+              });
+            },
+            icon: Icon(
+              Icons.more_vert,
+            ),
             itemBuilder: (_) => [
-           const PopupMenuItem(value: FilterOptions.Favorites,child: Text('Only Favorites'),),
-            const PopupMenuItem(value: FilterOptions.All,child: Text('Show All'),),
-
-          ],
-           icon: Icon(Icons.more_vert),),
-           
+                  PopupMenuItem(
+                    child: Text('Only Favorites'),
+                    value: FilterOptions.Favorites,
+                  ),
+                  PopupMenuItem(
+                    child: Text('Show All'),
+                    value: FilterOptions.All,
+                  ),
+                ],
+          ),
+          Consumer<Cart>(
+            builder: (_, cart, ch) => Badge(
+                  value: cart.itemCount.toString(), color: Colors.red,
+                  child: ch,
+                ),
+            child: IconButton(
+              icon: Icon(
+                Icons.shopping_cart,
+              ),
+              onPressed: () {},
+            ),
+          ),
         ],
       ),
       body: ProductsGrid(_showOnlyFavorites),
