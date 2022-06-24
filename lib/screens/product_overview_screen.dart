@@ -51,18 +51,18 @@ class _ProductsOverviewScreenState extends State<ProductsOverviewScreen> {
                   ),
                 ],
           ),
-          // Consumer<Cart>(
-          //   builder: (context, cart, ch) => Badge(
-          //         value: cart.itemCount.toString(), 
-          //        child: ch,
-          //       ),
-          //   child: IconButton(
-          //     icon: const Icon(
-          //       Icons.shopping_cart,
-          //     ),
-          //     onPressed: () {},
-          //   ),
-          // ),
+          Consumer<Cart>(
+            builder: (context, cart, icon) => Badge(
+                  value: cart.itemCount.toString(), 
+                 child: IconButton(
+              icon: const Icon(
+                Icons.shopping_cart,
+              ),
+              onPressed: () {},
+            ),
+                ),
+           
+          ),
         ],
       ),
       body: ProductsGrid(_showOnlyFavorites),
