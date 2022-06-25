@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 
-import '../providers/cart.dart';
+import '../providers/cart.dart' show Cart;
+import '../widgets/cart_item.dart';
 
 class CartScreen extends StatelessWidget {
   const CartScreen({Key? key}) : super(key: key);
@@ -45,17 +46,31 @@ class CartScreen extends StatelessWidget {
                     backgroundColor: Colors.white,
                   ),
                   ElevatedButton(
-                      style: ButtonStyle(
-                        backgroundColor:
-                            MaterialStateProperty.all(Colors.deepOrange),
-                      ),
-                      onPressed: () {},
-                      child: Text(
-                        'Place Order',
-                        style: TextStyle(color: Colors.white),
-                      ))
+                    style: ButtonStyle(
+                      backgroundColor:
+                          MaterialStateProperty.all(Colors.deepOrange),
+                    ),
+                    onPressed: () {},
+                    child: Text(
+                      'Place Order',
+                      style: TextStyle(color: Colors.white),
+                    ),
+                  ),
                 ],
               ),
+            ),
+          ),
+          SizedBox(
+            height: 10,
+          ),
+          Expanded(
+            child: ListView.builder(
+              itemBuilder: (ctx, i) => CartItem(
+                  cart.items[i]!.id,
+                  cart.items[i]!.price,
+                  cart.items[i]!.quantity,
+                  cart.items[i]!.title),
+              itemCount: cart.items.length,
             ),
           ),
         ],
