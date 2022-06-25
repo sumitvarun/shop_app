@@ -20,9 +20,14 @@ class CartItem extends StatelessWidget {
         padding: EdgeInsets.all(8),
         child: ListTile(
           leading: CircleAvatar(
-            child: Text(
-              '\$$price',
-              textAlign: TextAlign.center,
+            child: Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: FittedBox(
+                child: Text(
+                  '\$$price',
+                  textAlign: TextAlign.center,
+                ),
+              ),
             ),
           ),
           title: Text(title),
