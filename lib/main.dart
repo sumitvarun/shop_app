@@ -30,9 +30,9 @@ class MyApp extends StatelessWidget {
         ChangeNotifierProvider(create: (context) => Orders()),
       ],
       child: MaterialApp(
-        title: 'Flutter Demo',
+        title: 'Shop App',
         theme: ThemeData(
-          primarySwatch: Colors.blue,
+          primarySwatch: Colors.amber,
         ),
         home: ProductsOverviewScreen(),
         routes: {

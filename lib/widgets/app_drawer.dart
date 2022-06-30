@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import '../screens/order_screen.dart';
 
 class AppDrawer extends StatelessWidget {
@@ -10,21 +11,36 @@ class AppDrawer extends StatelessWidget {
       child: Column(
         children: <Widget>[
           AppBar(
-            title: Text('hello friend'),
+            title: Text(
+              'Categories',
+              style: GoogleFonts.quicksand(fontWeight: FontWeight.w500),
+            ),
             automaticallyImplyLeading: false,
           ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.shop),
-            title: Text('shop'),
+            leading: Icon(
+              Icons.storefront,
+              color: Colors.black,
+            ),
+            title: Text(
+              'shop',
+              style: GoogleFonts.quicksand(fontWeight: FontWeight.w600),
+            ),
             onTap: () {
               Navigator.of(context).pushReplacementNamed('/');
             },
           ),
           Divider(),
           ListTile(
-            leading: Icon(Icons.payment),
-            title: Text('Orders'),
+            leading: Icon(
+              Icons.payment,
+              color: Colors.black,
+            ),
+            title: Text(
+              'Orders',
+              style: GoogleFonts.quicksand(fontWeight: FontWeight.w600),
+            ),
             onTap: () {
               Navigator.of(context)
                   .pushReplacementNamed(OrdersScreen.routeName);
