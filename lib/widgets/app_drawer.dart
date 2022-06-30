@@ -17,9 +17,9 @@ class AppDrawer extends StatelessWidget {
             ),
             automaticallyImplyLeading: false,
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.storefront,
               color: Colors.black,
             ),
@@ -31,9 +31,9 @@ class AppDrawer extends StatelessWidget {
               Navigator.of(context).pushReplacementNamed('/');
             },
           ),
-          Divider(),
+          const Divider(),
           ListTile(
-            leading: Icon(
+            leading: const Icon(
               Icons.payment,
               color: Colors.black,
             ),
