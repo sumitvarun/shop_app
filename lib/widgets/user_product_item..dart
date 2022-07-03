@@ -23,7 +23,7 @@ class UserProductIitem extends StatelessWidget {
             ),
             IconButton(
               onPressed: () {},
-              icon: Icon(Icons.edit),
+              icon: Icon(Icons.delete),
             ),
           ],
         ),
