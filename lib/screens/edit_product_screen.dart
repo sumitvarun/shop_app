@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 class EditProductScreen extends StatefulWidget {
   EditProductScreen({Key? key}) : super(key: key);
@@ -12,6 +13,7 @@ class EditProductScreen extends StatefulWidget {
 class _EditProductScreenState extends State<EditProductScreen> {
   final _priceFocusNode = FocusNode();
   final _discriptionFocusNode = FocusNode();
+  final _imageUrlController = TextEditingController();
 
   // note : if you working with focusNode
   //focusnode is stick with your memory
@@ -23,6 +25,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
     //TODO : implement dispose
     _priceFocusNode.dispose();
     _discriptionFocusNode.dispose();
+    _imageUrlController.dispose();
     super.dispose();
   }
 
@@ -62,6 +65,41 @@ class _EditProductScreenState extends State<EditProductScreen> {
               focusNode: _discriptionFocusNode,
               //  textInputAction: TextInputAction.next,
             ),
+            Row(
+              crossAxisAlignment: CrossAxisAlignment.end,
+              children: <Widget>[
+                Container(
+                  width: 100,
+                  height: 100,
+                  margin: const EdgeInsets.only(top: 8, right: 10),
+                  decoration: BoxDecoration(
+                    border: Border.all(
+                      width: 1,
+                      color: const Color.fromARGB(255, 59, 59, 59),
+                    ),
+                  ),
+                  child: _imageUrlController.text.isEmpty
+                      ? Text('Enter a Url')
+                      : FittedBox(
+                          child: Image.network(
+                            _imageUrlController.text,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                ),
+                Expanded(
+                  child: TextFormField(
+                    decoration: InputDecoration(labelText: 'Image Url'),
+                    keyboardType: TextInputType.url,
+                    textInputAction: TextInputAction.done,
+                    controller: _imageUrlController,
+                    onEditingComplete: () {
+                      setState(() {});
+                    },
+                  ),
+                ),
+              ],
+            )
           ],
         )),
       ),
