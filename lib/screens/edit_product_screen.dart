@@ -14,6 +14,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _priceFocusNode = FocusNode();
   final _discriptionFocusNode = FocusNode();
   final _imageUrlController = TextEditingController();
+  final _imageUrlFocusNode = FocusNode();
 
   // note : if you working with focusNode
   //focusnode is stick with your memory
@@ -21,12 +22,26 @@ class _EditProductScreenState extends State<EditProductScreen> {
   // when that's  object get remove so when you leave that's  screen. because the focusnodes otherwise will stick around in memory.
 
   @override
+  void initState() {
+    _imageUrlFocusNode.addListener(_updateImageUrl);
+    super.initState();
+  }
+
+  @override
   void dispose() {
     //TODO : implement dispose
     _priceFocusNode.dispose();
     _discriptionFocusNode.dispose();
     _imageUrlController.dispose();
+    _imageUrlFocusNode.dispose();
+    _imageUrlFocusNode.removeListener(_updateImageUrl);
     super.dispose();
+  }
+
+  void _updateImageUrl() {
+    if (!_imageUrlFocusNode.hasFocus) {
+      setState(() {});
+    }
   }
 
   @override
@@ -93,6 +108,7 @@ class _EditProductScreenState extends State<EditProductScreen> {
                     keyboardType: TextInputType.url,
                     textInputAction: TextInputAction.done,
                     controller: _imageUrlController,
+                    focusNode: _imageUrlFocusNode,
                     onEditingComplete: () {
                       setState(() {});
                     },
