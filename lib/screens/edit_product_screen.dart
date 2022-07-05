@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:shop_app/providers/product.dart';
 
 class EditProductScreen extends StatefulWidget {
   EditProductScreen({Key? key}) : super(key: key);
@@ -15,6 +16,14 @@ class _EditProductScreenState extends State<EditProductScreen> {
   final _discriptionFocusNode = FocusNode();
   final _imageUrlController = TextEditingController();
   final _imageUrlFocusNode = FocusNode();
+  final _form = GlobalKey<FormState>();
+  var _editedProduct = Product(
+    id: '',
+    title: '',
+    description: '',
+    price: 0,
+    imageUrl: '',
+  );
 
   // note : if you working with focusNode
   //focusnode is stick with your memory
@@ -44,80 +53,127 @@ class _EditProductScreenState extends State<EditProductScreen> {
     }
   }
 
+  void _saveForm() {
+    _form.currentState?.save();
+    print(_editedProduct.title);
+    print(_editedProduct.description);
+    print(_editedProduct.price);
+    print(_editedProduct.imageUrl);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         title: const Text('Edit Product'),
+        actions: <Widget>[
+          IconButton(onPressed: _saveForm, icon: const Icon(Icons.save))
+        ],
       ),
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Form(
+            key: _form,
             child: ListView(
-          children: <Widget>[
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Title'),
-              textInputAction: TextInputAction.next,
-              onFieldSubmitted: (_) {
-                //focusnode helps us to move user input from 1st textfield to second textfield.
-                FocusScope.of(context).requestFocus(_priceFocusNode);
-              },
-            ),
-            TextFormField(
-              decoration: InputDecoration(labelText: 'Price'),
-              textInputAction: TextInputAction.next,
-              keyboardType: TextInputType.number,
-              focusNode: _priceFocusNode,
-              onFieldSubmitted: (_) {
-                //focusnode helps us to move user input from 1st textfield to second textfield.
-                FocusScope.of(context).requestFocus(_discriptionFocusNode);
-              },
-            ),
-            TextFormField(
-              decoration: const InputDecoration(labelText: 'Discription'),
-              maxLines: 3,
-              keyboardType: TextInputType.multiline,
-              focusNode: _discriptionFocusNode,
-              //  textInputAction: TextInputAction.next,
-            ),
-            Row(
-              crossAxisAlignment: CrossAxisAlignment.end,
               children: <Widget>[
-                Container(
-                  width: 100,
-                  height: 100,
-                  margin: const EdgeInsets.only(top: 8, right: 10),
-                  decoration: BoxDecoration(
-                    border: Border.all(
-                      width: 1,
-                      color: const Color.fromARGB(255, 59, 59, 59),
-                    ),
-                  ),
-                  child: _imageUrlController.text.isEmpty
-                      ? Text('Enter a Url')
-                      : FittedBox(
-                          child: Image.network(
-                            _imageUrlController.text,
-                            fit: BoxFit.cover,
-                          ),
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Title'),
+                  textInputAction: TextInputAction.next,
+                  onFieldSubmitted: (_) {
+                    //focusnode helps us to move user input from 1st textfield to second textfield.
+                    FocusScope.of(context).requestFocus(_priceFocusNode);
+                  },
+                  onSaved: (value) {
+                    _editedProduct = Product(
+                        title: value.toString(),
+                        id: _editedProduct.id,
+                        description: _editedProduct.description,
+                        price: _editedProduct.price,
+                        imageUrl: _editedProduct.imageUrl);
+                  },
+                ),
+                TextFormField(
+                  decoration: InputDecoration(labelText: 'Price'),
+                  textInputAction: TextInputAction.next,
+                  keyboardType: TextInputType.number,
+                  focusNode: _priceFocusNode,
+                  onFieldSubmitted: (_) {
+                    //focusnode helps us to move user input from 1st textfield to second textfield.
+                    FocusScope.of(context).requestFocus(_discriptionFocusNode);
+                  },
+                  onSaved: (value) {
+                    _editedProduct = Product(
+                        title: _editedProduct.title,
+                        id: _editedProduct.id,
+                        description: _editedProduct.description,
+                        price: double.parse(value!),
+                        imageUrl: _editedProduct.imageUrl);
+                  },
+                ),
+                TextFormField(
+                  decoration: const InputDecoration(labelText: 'Discription'),
+                  maxLines: 3,
+                  keyboardType: TextInputType.multiline,
+                  focusNode: _discriptionFocusNode,
+                  //  textInputAction: TextInputAction.next,
+                  onSaved: (value) {
+                    _editedProduct = Product(
+                        title: _editedProduct.title,
+                        id: _editedProduct.id,
+                        description: value.toString(),
+                        price: _editedProduct.price,
+                        imageUrl: _editedProduct.imageUrl);
+                  },
+                ),
+                Row(
+                  crossAxisAlignment: CrossAxisAlignment.end,
+                  children: <Widget>[
+                    Container(
+                      width: 100,
+                      height: 100,
+                      margin: const EdgeInsets.only(top: 8, right: 10),
+                      decoration: BoxDecoration(
+                        border: Border.all(
+                          width: 1,
+                          color: const Color.fromARGB(255, 59, 59, 59),
                         ),
-                ),
-                Expanded(
-                  child: TextFormField(
-                    decoration: InputDecoration(labelText: 'Image Url'),
-                    keyboardType: TextInputType.url,
-                    textInputAction: TextInputAction.done,
-                    controller: _imageUrlController,
-                    focusNode: _imageUrlFocusNode,
-                    onEditingComplete: () {
-                      setState(() {});
-                    },
-                  ),
-                ),
+                      ),
+                      child: _imageUrlController.text.isEmpty
+                          ? Text('Enter a Url')
+                          : FittedBox(
+                              child: Image.network(
+                                _imageUrlController.text,
+                                fit: BoxFit.cover,
+                              ),
+                            ),
+                    ),
+                    Expanded(
+                      child: TextFormField(
+                        decoration: InputDecoration(labelText: 'Image Url'),
+                        keyboardType: TextInputType.url,
+                        textInputAction: TextInputAction.done,
+                        controller: _imageUrlController,
+                        focusNode: _imageUrlFocusNode,
+                        onEditingComplete: () {
+                          setState(() {});
+                        },
+                        onFieldSubmitted: (_) {
+                          _saveForm();
+                        },
+                        onSaved: (value) {
+                          _editedProduct = Product(
+                              title: _editedProduct.title,
+                              id: _editedProduct.id,
+                              description: _editedProduct.description,
+                              price: _editedProduct.price,
+                              imageUrl: value.toString());
+                        },
+                      ),
+                    ),
+                  ],
+                )
               ],
-            )
-          ],
-        )),
+            )),
       ),
     );
   }
